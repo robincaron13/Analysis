@@ -32,9 +32,12 @@ void runAnalysis()
     // from root6, or the interpreter of root5
 #if !defined (__CINT__) || defined (__CLING__)
     gInterpreter->LoadMacro("AliAnalysisTaskMyTask.cxx++g");
+    //gInterpreter->LoadMacro("AliUniFlowCorrTask.cxx++g");
+
     AliAnalysisTaskMyTask *task = reinterpret_cast<AliAnalysisTaskMyTask*>(gInterpreter->ExecuteMacro("AddMyTask.C"));
 #else
     gROOT->LoadMacro("AliAnalysisTaskMyTask.cxx++g");
+    //gROOT->LoadMacro("AliUniFlowCorrTask.cxx++g");
     gROOT->LoadMacro("AddMyTask.C");
     AliAnalysisTaskMyTask *task = AddMyTask();
 #endif
@@ -43,7 +46,7 @@ void runAnalysis()
     if(!mgr->InitAnalysis()) return;
     mgr->SetDebugLevel(2);
     mgr->PrintStatus();
-    mgr->SetUseProgressBar(1, 25);
+    //mgr->SetUseProgressBar(1, 25);
 
     if(local) {
         // if you want to run locally, we need to define some input
@@ -58,11 +61,11 @@ void runAnalysis()
         // also specify the include (header) paths on grid
         alienHandler->AddIncludePath("-I. -I$ROOTSYS/include -I$ALICE_ROOT -I$ALICE_ROOT/include -I$ALICE_PHYSICS/include");
         // make sure your source files get copied to grid
-        alienHandler->SetAdditionalLibs("AliAnalysisTaskMyTask.cxx AliAnalysisTaskMyTask.h");
+        alienHandler->SetAdditionalLibs("AliAnalysisTaskMyTask.cxx AliAnalysisTaskMyTask.h ");
         alienHandler->SetAnalysisSource("AliAnalysisTaskMyTask.cxx");
         // select the aliphysics version. all other packages
         // are LOADED AUTOMATICALLY!
-        alienHandler->SetAliPhysicsVersion("vAN-20181028_ROOT6-1");
+        alienHandler->SetAliPhysicsVersion("vAN-20210930_ROOT6-1");
         // set the Alien API version
         alienHandler->SetAPIVersion("V1.1x");
         // select the input data
